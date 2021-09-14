@@ -1,0 +1,60 @@
+# first install the new apps
+#!/bin/bash
+
+# Must be run as root or sudo
+if [ $(id -u) != 0 ]
+then
+  echo "This script must be run as root or with sudo."
+  exit
+fi
+
+# Install package
+install_package(){
+	# install package
+	apt install -y gparted
+	apt install -y dnsutils
+	# apt install -y hobbit-plugins
+	apt install -y acl
+	# 
+	apt install -y snmpd snmp
+	apt install -y snmp-mibs-downloader
+	apt install -y htop atop
+	apt install -y ftp
+	apt install -y sysstat
+	apt install -y echoping
+	apt install -y odirstat
+	apt install -y zenmap
+	# -----------
+	apt install -y lynx
+	apt install -y iotop
+	apt install -y atop
+	apt install -y ssmtp
+	apt install -y mailutils
+	apt install -y mlocate
+	apt install -y baobab
+	apt install -y synaptic
+	apt install -y nethogs
+	# apt install -y idle*
+	# apt install -y lxterminal
+	# apt install -y
+	# apt clean -y
+}
+
+START_TIME=`date +%s`
+
+# change directory here
+# cd dirname $0
+apt update
+apt-get update
+
+install_package
+
+END_TIME=`date +%s`
+
+SS=`expr ${END_TIME} - ${START_TIME}`
+HH=`expr ${SS} / 3600`
+SS=`expr ${SS} % 3600`
+MM=`expr ${SS} / 60`
+SS=`expr ${SS} % 60`
+
+echo "Total Time: ${HH}:${MM}:${SS} (h:m:s)"

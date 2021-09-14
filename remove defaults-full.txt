@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# Must be run as root or sudo
+if [ $(id -u) != 0 ]
+then
+  echo "This script must be run as root or with sudo."
+  exit
+fi
+
+# delete package
+delete_package(){
+	# delete package
+	apt autoremove -y wolfram-engine
+	# apt autoremove -y oracle-java8-jdk
+	apt autoremove -y sonic-pi
+	# apt autoremove -y libreoffice*
+	apt autoremove -y code-the-classics
+	# 100MB-----------
+	apt autoremove -y scratch* nuscratch squeak-plugins-scratch
+	# apt autoremove -y nuscratch
+	apt autoremove -y scratch*
+	# apt autoremove -y freepats
+	apt autoremove -y libraspberrypi-doc
+	apt autoremove -y python-games
+	apt autoremove -y greenfoot*
+	# 10MB-----------
+	apt autoremove -y python-sense-emu
+	apt autoremove -y bluej
+	apt autoremove -y python3-sense-emu
+	apt autoremove -y python-sense-emu-doc
+	apt autoremove -y sense-hat sense-emu-doc sense-emu-tools
+	apt autoremove -y minecraft-pi
+	apt autoremove -y python-skywriter
+	apt autoremove -y python3-skywriter
+	apt autoremove -y geany*
+	apt autoremove -y thonny
+	apt autoremove -y mu-editor
+	apt autoremove -y smartsim
+	apt autoremove -y
+	apt clean -y
+}
+#
+#
+
+START_TIME=`date +%s`
+
+# change directory here
+# cd dirname $0
+
+delete_package
+
+END_TIME=`date +%s`
+
+SS=`expr ${END_TIME} - ${START_TIME}`
+HH=`expr ${SS} / 3600`
+SS=`expr ${SS} % 3600`
+MM=`expr ${SS} / 60`
+SS=`expr ${SS} % 60`
+
+echo "Total Time: ${HH}:${MM}:${SS} (h:m:s)"
+
+

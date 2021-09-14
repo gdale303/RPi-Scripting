@@ -1,0 +1,185 @@
+*** Targets ***
+
+probe = FPing
+
+menu = Top
+title = RTT Latency Grapher
+remark = Welcome to the SmokePing website of the House. \
+         Here you will learn all about the latency getting out of our network.
+
++ SanityChecks
+
+menu = Sanity Check
+title = Closest Connectivity
+
+++ LocalHost
+menu = localhost
+title = localhost
+host = localhost
+
+++ Router
+menu = Router
+title = Dream Machine Router
+host = 192.168.0.1
+
+++ FirstHop
+menu = FirstHop
+title = First Hop out of the house
+host = 68.86.168.18
+
++ InternetSites
+
+menu = Internet Sites
+title = Internet Sites
+
+++ Facebook
+menu = Facebook
+title = Facebook
+host = facebook.com
+
+++ Apple
+menu = Apple
+title = Apple
+host = apple.com
+
+++ Ancestry
+menu = AncestryGenealogy
+title = Ancestry Genealogy
+host = ancestry.com
+
++ Europe
+
+menu = Europe
+title = European Connectivity
+
+++ Germany
+
+menu = Germany
+title = The Old World
+
+
++++ Genealogy
+
+menu = Genealogy dot NET
+title = Genealogy dot NET
+host = genealogy.net
+
+++ Switzerland
+
+menu = Switzerland
+title = Switzerland
+
++++ CernIXP
+
+menu = CernIXP
+title = Cern Internet eXchange Point
+
+
++++ SBB
+
+menu = SBB
+title = SBB
+
+
+++ UK
+
+menu = United Kingdom
+title = United Kingdom
+
++++ CambridgeUni
+
+menu = Cambridge
+title = Cambridge
+
++++ UEA
+
+menu = UEA
+title = UEA
+
++ USA
+
+menu = North America
+title = North American Connectivity
+
+++ MIT
+
+menu = MIT
+title = Massachusetts Institute of Technology Webserver
+host = web.mit.edu
+
+++ UNL
+
+menu = UNL
+title = Nebraska University Holland Center in Omaha
+host = hcc.unl.edu
+
+++ UCSD
+
+menu = U. C. San Diego
+title = U. C. San Diego Webserver
+host = ucsd.edu
+
+++ UMN
+
+menu =  University of Minnesota
+title = University of Minnesota
+host = twin-cities.umn.edu
+
++ DNS
+menu = DNS
+title = DNS
+
+++ GTMCDNS1
+menu = Glenwood DNS 1
+title = Glenwood DNS 74.51.143.98
+host = 74.51.143.98
+
+++ GTMCDNS2
+menu = Glenwood DNS 2
+title = Glenwood DNS 74.51.143.99
+host = 74.51.143.99
+
+++ GoogleDNS1
+menu = Google DNS 1
+title = Google DNS 8.8.8.8
+host = 8.8.8.8
+
+++ CloudflareDNS1
+menu = Cloudflare DNS 1
+title = Cloudflare Privacy DNS 1.1.1.1
+host = 1.1.1.1
+
+++ Quad9
+menu = Quad9
+title = Quad9 Phish Malware Filter DNS 9.9.9.9
+host = 9.9.9.9
+
++ DNSProbes
+menu = DNS Probes
+title = DNS Probes
+probe = DNS
+
+++ GTMCDNS1
+menu = Glenwood DNS 1
+title = Glenwood DNS 74.51.143.98
+host = 74.51.143.98
+
+++ GTMCDNS2
+menu = Glenwood DNS 2
+title = Glenwood DNS 74.51.143.99
+host = 74.51.143.99
+
+++ GoogleDNS1
+menu = Google DNS 1
+title = Google DNS 8.8.8.8
+host = 8.8.8.8
+
+++ CloudflareDNS1
+menu = Cloudflare DNS 1
+title = Cloudflare Privacy DNS 1.1.1.1
+host = 1.1.1.1
+
+++ Quad9
+menu = Quad9
+title = Quad9 Phish Malware Filter 9.9.9.9
+host = 9.9.9.9

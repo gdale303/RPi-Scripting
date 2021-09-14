@@ -1,0 +1,56 @@
+proc            /proc           proc    defaults          0       0
+PARTUUID=ddd84927-01  /boot           vfat    defaults          0       2
+PARTUUID=ddd84927-02  /               ext4    defaults,noatime  0       1
+# a swapfile is not a swap partition, no line here
+#   use  dphys-swapfile swap[on|off]  for that
+PARTUUID=c472988a-01	/home	ext4	defaults,noatime	0	2
+
+
+
+dpkg-query -W -f='${Installed-Size;8} ${Package}\n' | sort -nr | head -10
+
+SomeDude
+sudo apt-get remove --purge wolfram-engine
+ libreoffice*
+ scratch* 
+ minecraft-pi 
+ sonic-pi 
+ dillo 
+ gpicview 
+ oracle-java8-jdk openjdk-7-jre oracle-java7-jdk openjdk-8-jre -y
+
+Another Dude
+python-sense-hat 
+python3-sense-hat
+python3-sense-emu 
+python-sense-emu 
+python-sense-emu-doc 
+wolfram-engine 
+python3-skywriter 
+python-skywriter 
+wolframscript 
+scratch2 
+scratch
+
+get update
+sudo apt-get install python-sense-emu python3-sense-emu python-sense-emu-doc sense-emu-tools -y
+
+You can the
+ME
+
+bluej
+code-the-classics
+greenfoot*
+wolfram-engineor wolfram* to get wolframscript
+mu-editor
+python-games
+sense-hat
+sense-emu-tools
+smartsim
+thonny
+
+
+sudo apt-get remove --purge wolfram-engine scratch* minecraft-pi sonic-pi python-sense-emu python3-sense-emu python-sense-emu-doc sense-emu-tools python-skywriter python3-skywriter bluej code-the-classics greenfoot* mu-editor python-games sense-hat sense-emu-tools smartsim thonny geany*
+
+sudo apt autoremove
+"clean" option??? do before autoremove

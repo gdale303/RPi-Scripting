@@ -1,0 +1,7 @@
+[unifi.defaults]
+  url  = "https://10.0.0.1"
+  user = "unpoller"
+  pass = "Unpoller123"
+  save_dpi = true
+[influxdb]
+  url  = "http://10.0.0.65:8086"

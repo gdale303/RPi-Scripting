@@ -1,0 +1,89 @@
+
+after scripts, do these unautomated things
+install hobbit-client
+
+configure
+ssmtp
+mailutiles
+
+add user?
+
+
+
+sudo nano install4me.sh
+sudo nano remove4me.sh
+sudo chmod +x ./install4me.sh
+sudo chmod +x ./remove4me.sh
+df -h
+time sudo ./install4me.sh
+time sudo ./remove4me.sh
+
+add the USB thumb drive and mount it to the "correct" dirs.
+sudo rsync -axv /home/ /media/pi/CRUZ/
+sudo rm -rf /home/* OR sudo mv /home /home.old
+
+add another user, dennis?
+
+
+sudo nano /boot/cmdline.txt
+
+wget http://ftp.us.debian.org/debian/pool/main/libs/libseccomp/libseccomp2_2.4.4-1~bpo10+1_armhf.deb
+
+sudo dpkg -i libseccomp2_2.4.4-1~bpo10+1_armhf.deb
+
+sudo apt-get update && sudo apt-get upgrade
+
+curl -sSL https://get.docker.com | sh
+
+sudo usermod -aG docker pi
+
+sudo reboot
+
+sudo apt install -y python3-pip libffi-dev
+sudo pip3 install docker-compose
+
+make sure the docker dir is created
+make sure ownership is adjusted to pi
+
+cd /home/docker
+mkdir stack1
+mkdir stack2
+mkdir stack3
+cd stack1
+mkdir homebridge
+mkdir portainer
+cd ../stack2
+mkdir unpoller
+mkdir grafana
+mkdir influxdb
+cd ../stack3
+mkdir heimdal
+mkdir smokeping
+mkdir ddclient
+
+in each stack dir do dc up then dc up -d
+
+
+sudo apt -y install apache2
+rename
+rrdtool librrd-dev libpcre3-dev libssl-dev ldap-utils libldap2-dev fping
+libc-ares-dev
+##
+sudo apt install build-essential libc-ares-dev librrd-dev libssl-dev 
+libldap2-dev libpcre3-dev
+##
+
+sudo useradd -u 1984 xymon -m
+
+## aborted build of latest version- missing dep, unavailable
+sudo apt install xymon
+
+sudo ln -s ../mods-available/rewrite.load .
+sudo /etc/init.d/apache2 reload
+
+go back to /home/xymon...
+
+sudo tar zxf xymon-4.3.30.tar.gz
+cd xymon-4.3.30
+sudo ./build/makedeb.sh 4.3.30
+

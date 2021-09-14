@@ -1,0 +1,41 @@
+services:
+  smokeping:
+    image: ghcr.io/linuxserver/smokeping
+    container_name: smokeping
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=MST7MDT
+    volumes:
+      - /home/docker/stack3/smokeping/config:/config
+      - /home/docker/stack3/smokeping/data:/data
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    ports:
+      - 8084:80
+    restart: unless-stopped
+
+  ddclient:
+    image: ghcr.io/linuxserver/ddclient
+    container_name: ddclient
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=MST7MDT
+    volumes:
+      - /home/docker/stack3/ddclient/config:/config
+    restart: unless-stopped
+
+  heimdall:
+    image: ghcr.io/linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=MST7MDT
+    volumes:
+      - /home/docker/stack3/heimdall/config:/config
+    ports:
+      - 8088:80
+      - 8089:443
+    restart: unless-stopped
