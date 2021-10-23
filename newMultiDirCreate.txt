@@ -1,0 +1,32 @@
+
+
+
+WD=/home/pi/Containers
+
+rm $WD/{stacks/1,stacks} -R
+
+
+mkdir -p $WD/{stacks/1/homebridge,stacks/1/portainer,stacks/2/unpoller,stacks/2/grafana,stacks/2/influxdb,stacks/3/heimdall,stacks/3/smokeping,stacks/3/ddclient/config}
+
+
+mkdir -p $WD/{stacks/1/heimdall/config,stacks/1/portainer/data,stacks/2/unpoller,stacks/2/grafana,stacks/2/influxdb,stacks/4/smokeping,stacks/1/ddclient/config}
+
+
+cd /home/docker
+mkdir stack1
+mkdir stack2
+mkdir stack3
+cd stack1
+mkdir homebridge
+mkdir portainer
+cd ../stack2
+mkdir unpoller
+mkdir grafana
+mkdir influxdb
+cd ../stack3
+mkdir heimdall
+mkdir smokeping
+mkdir ddclient
+mkdir ddclient/config
+
+cd $WD/setup
