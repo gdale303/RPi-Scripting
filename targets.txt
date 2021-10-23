@@ -4,8 +4,39 @@ probe = FPing
 
 menu = Top
 title = RTT Latency Grapher
-remark = Welcome to the SmokePing website of the House. \
-         Here you will learn all about the latency of our network.
+remark = Welcome to the SmokePing website. \
+         Here you will see and learn about the latencies out of our network.
+
+
++ SanityChecks
+
+menu = Sanity Checks
+title = Closest Connectivity
+
+++ LocalHost
+menu = localhost
+title = localhost
+host = localhost
+
+++ Router
+menu = Router
+title = UDMP Router
+host = 10.0.0.1
+
+++ FirstHop
+menu = FirstHop
+title = First Hop out of the house 96.120.12.33
+host = 96.120.12.33
+
+++ Glenwood
+menu = GTMC
+title = GTMC Border Router Omaha
+host = 184.105.23.2
+
+++ Lawrence
+menu = Lawrence
+title = Lawrence Ext DHCP
+host = nerefuge.ddns.net
 
 + InternetSites
 
@@ -22,30 +53,30 @@ menu = YouTube
 title = YouTube
 host = youtube.com
 
-++ JupiterBroadcasting
-menu = JupiterBroadcasting
-title = JupiterBroadcasting
-host = jupiterbroadcasting.com
+++ Arapahoe
+menu = ArapahoeEDU
+title = Arapahoe Dot EDU
+host = arapahoe.edu
 
 ++ GoogleSearch
 menu = Google
 title = google.com
 host = google.com
 
-++ TheSettlersOnline
-menu = Settlers
-title = TheSettlersOnline.net
-host = thesettlersonline.net
+++ Comcast
+menu = Comcast
+title = Comcast.Net
+host = comcast.net
 
 ++ Westword
 menu = Westword
 title = Westword
 host = westword.com
 
-++ linuxserverio
-menu = linuxserver.io
-title = linuxserver.io
-host = linuxserver.io
+++ office
+menu = MS Office Dot COM
+title = office.com
+host = office.com
 
 + Europe
 
@@ -57,11 +88,11 @@ title = European Connectivity
 menu = Germany
 title = The Fatherland
 
-+++ TelefonicaDE
++++ LMUDE
 
-menu = Telefonica DE
-title = Telefonica DE
-host = www.telefonica.de
+menu = LMU DE
+title = Ludwig-Maximilians-Universität München
+host = lmu.de
 
 ++ Switzerland
 
@@ -74,11 +105,11 @@ menu = CernIXP
 title = Cern Internet eXchange Point
 host = cixp.web.cern.ch
 
-+++ SBB
++++ UZH
 
-menu = SBB
-title = SBB
-host = www.sbb.ch/en
+menu = UZH
+title = University of Zurich
+host = uzh.ch
 
 ++ UK
 
@@ -91,11 +122,11 @@ menu = Cambridge
 title = Cambridge
 host = cam.ac.uk
 
-+++ UEA
++++ Oxford
 
-menu = UEA
-title = UEA
-host = www.uea.ac.uk
+menu = Oxford
+title = University of Oxford
+host = ox.ac.uk
 
 + USA
 
@@ -108,11 +139,11 @@ menu = MIT
 title = Massachusetts Institute of Technology Webserver
 host = web.mit.edu
 
-++ IU
+++ CUNY
 
-menu = IU
-title = Indiana University
-host = www.indiana.edu
+menu = Columbia
+title = Columbia University in NY
+host = columbia.edu
 
 ++ UCB
 
@@ -120,11 +151,11 @@ menu = U. C. Berkeley
 title = U. C. Berkeley Webserver
 host = www.berkeley.edu
 
-++ UCSD
+++ UT
 
-menu = U. C. San Diego
-title = U. C. San Diego Webserver
-host = ucsd.edu
+menu = U of T
+title = University of Tampa
+host = ut.edu
 
 ++ UMN
 
@@ -134,7 +165,7 @@ host = twin-cities.umn.edu
 
 ++ OSUOSL
 
-menu = Oregon State University Open Source Lab
+menu = Oregon State University
 title = Oregon State University Open Source Lab
 host = osuosl.org
 
