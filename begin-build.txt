@@ -3,54 +3,254 @@ PARTUUID=ddd84927-01  /boot           vfat    defaults          0       2
 PARTUUID=ddd84927-02  /               ext4    defaults,noatime  0       1
 # a swapfile is not a swap partition, no line here
 #   use  dphys-swapfile swap[on|off]  for that
-PARTUUID=c472988a-01	/home	ext4	defaults,noatime	0	2
+# old one PARTUUID=c472988a-01	/home	ext4	defaults,noatime	0	2
+
+PARTUUID=c472988a-03	/swap	ext4	defaults,noatime	0	2
+
+PARTUUID=c472988a-02	/home	ext4	defaults,noatime	0	2
+
+PARTUUID=c472988a-01	/mnt/bu ext4	ro,nofail	0	2
+
+
+#Test this
+sudo mkdir /swap
+sudo mkdir /mnt/bu
+sudo mkdir /home/containers
+sudo chown pi:pi /home/containers
 
 
 
 dpkg-query -W -f='${Installed-Size;8} ${Package}\n' | sort -nr | head -10
 
-SomeDude
-sudo apt-get remove --purge wolfram-engine
- libreoffice*
- scratch* 
- minecraft-pi 
- sonic-pi 
- dillo 
- gpicview 
- oracle-java8-jdk openjdk-7-jre oracle-java7-jdk openjdk-8-jre -y
+remove packages via separate script on /mnt/bu/setup
 
-Another Dude
-python-sense-hat 
-python3-sense-hat
-python3-sense-emu 
-python-sense-emu 
-python-sense-emu-doc 
-wolfram-engine 
-python3-skywriter 
-python-skywriter 
-wolframscript 
-scratch2 
-scratch
+## Pre configure the USB CRUZ drive.
 
-get update
-sudo apt-get install python-sense-emu python3-sense-emu python-sense-emu-doc sense-emu-tools -y
+lay down a 4gb vfat partition on SDCard with windiskimager
+Copy PINN files to new 4gb partition
+boot Pi
+get it's IP somehow, local monitor, ipscan, ubi console?
+connect with VNC
+select the sdcard copy of raspberryOS to install, reboot.
+prolly same IP, SSH to the Pi, and enable VNC via raspi-config --DO NOT REBOOT YET!!! or maybe need to IF no local monitor to set the resolution for VNC.
+	service VNC
+	default resolution 1280x1024
+	hostname
+	disable splash screen
+	
+login to desktop, OOB runs
+	set english localizations and proper timezone.
+	set new pwd for user pi
+	next on monitor boarders, dont care.
+	skip wireless network setup.
+	skip update
+	done.
 
-You can the
-ME
+Set screen resolution in Xwin under menu::prefrences 1280 should be the max allowed.
+insert CRUZ
+	double check part-uuid
+	make directories for new mounts: /mnt/swap
+	change fstab with external usb mounts, do not save yet.
+	sync files from /home to /media/pi/HOMES
+	remove files from /home, it must be clear of all files to allow new mount, so logoff xwindows, then do final copy of /home to usb, then remove old files.
+	REBOOT
+	
+VNC in, quick verify our mounts are all there.
+change swapfile to external mount point.
 
-bluej
-code-the-classics
-greenfoot*
-wolfram-engineor wolfram* to get wolframscript
-mu-editor
-python-games
-sense-hat
-sense-emu-tools
-smartsim
-thonny
+make /boot/cmdline.txt changes
+	add: ipv6.disable=1 cgroup_enable=memory cgroup_memory=1
+Provide a static IP and disable IPv4 LocalLink addressing.
+
+Create Docker data dirs.
+desktop taskbar adds
+	cpu temp and cpu usage
+Edit SSH config
+	restrict root, no blank pwds...
+REBOOT
+log in with new IP address, ssh and VNC
+Install4me
+	angryIP
+	sudo updatedb
+	wget http://ftp.us.debian.org/debian/pool/main/libs/libseccomp/libseccomp2_2.4.4-1~bpo10+1_armhf.deb
+	install that
+remove4me
+
+update and upgrade, REBOOT
+add another user like dennis? provide correct group memberships.
+#configure services already installed.
+	ssmtp.conf and revaliases
+# snmp and snmpd???
+sudo nano /etc/snmp/snmpd.conf
+# change the 127 local host to the static ip for eth0
+sudo service snmpd restart
+snmpwalk -Os -c public -v 1 <IP>
 
 
-sudo apt-get remove --purge wolfram-engine scratch* minecraft-pi sonic-pi python-sense-emu python3-sense-emu python-sense-emu-doc sense-emu-tools python-skywriter python3-skywriter bluej code-the-classics greenfoot* mu-editor python-games sense-hat sense-emu-tools smartsim thonny geany*
+sudo apt-get update && sudo apt-get upgrade
+install docker.
+also install docker-compose
 
-sudo apt autoremove
-"clean" option??? do before autoremove
+-reboot, then do backup via PINN
+
+# mrtg
+sudo apt install xymon
+sudo setfacl -m g:xymon:r /var/log/messages
+
+sudo usermod -a -G video xymon
+#??? sudo nano /etc/apache2/sites-available/000-default.conf
+<Directory /var/www/html/>
+     Require host localhost
+     Require ip 127.0.0.1
+     Require ip 192.168
+	 Require ip 10.0.0
+</Directory>
+
+sudo nano /etc/apache2/conf-enabled/xymon.conf
+<Directory "/var/lib/xymon/www">
+    Options Indexes FollowSymLinks Includes MultiViews
+    <IfModule mod_authz_core.c>
+        # Apache 2.4+
+        Require local
+        Require ip 10.0.0
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Allow from localhost ::1/128
+    </IfModule>
+</Directory>
+# do same for xymon-cgi
+# Test
+sudo /etc/init.d/apache2 reload
+
+# Perp service side for more "client data" from the hobbit checks.
+sudo nano /etc/xymon/rrddefinitions.cfg
+#add this before any other setups
+# Definition for the measurement of the environmental temperature(s).
+# Besides the average the minimum and the maximum are measured, and
+# thus the MIN and MAX consolidation functions are needed too.
+[env]
+	RRA:AVERAGE:0.5:1:576
+	RRA:AVERAGE:0.5:6:576
+	RRA:AVERAGE:0.5:24:576
+	RRA:AVERAGE:0.5:288:576
+	RRA:MIN:0.5:1:576
+	RRA:MIN:0.5:6:576
+	RRA:MIN:0.5:24:576
+	RRA:MIN:0.5:288:576
+	RRA:MAX:0.5:1:576
+	RRA:MAX:0.5:6:576
+	RRA:MAX:0.5:24:576
+	RRA:MAX:0.5:288:576
+# save that file
+# graph define
+sudo nano /etc/xymon/graphs.d/graphs.retmt.cfg
+# New file
+~xymon/server/etc/graphs.d/graphs.retmt.cfg. or noe extra dot?
+#
+# Graph definitions for test 'env'.
+#
+[env]
+	TITLE , temperature  
+	YAXIS Temperature [C]
+	-l 0
+	DEF:temp=env.temp.rrd:Temperature:AVERAGE
+	DEF:tmin=env.temp.rrd:MinTemp:MIN
+	DEF:tmax=env.temp.rrd:MaxTemp:MAX
+	CDEF:trng=tmax,tmin,-
+	LINE1:tmin#ffa07a
+	AREA:trng#ffa07a::STACK
+	LINE1:temp#EE0000:Average
+	GPRINT:tmin:MIN:Min \: %5.1lf C
+	GPRINT:tmax:MAX:Max \: %5.1lf C
+	GPRINT:temp:AVERAGE:Avg \: %5.1lf C
+	GPRINT:temp:LAST:Cur \: %5.1lf C\n
+
+#save it
+sudo nano /etc/xymon/xymonserver.d/env.cfg
+# add this
+TEST2RRD+=",env=devmon"
+GRAPHS+=",env"
+# save it
+
+
+# more client side tests and stuff
+sudo apt install hobbit-plugins
+sudo nano  /usr/lib/xymon/client/ext/retmt.pl
+# new file, paste from scripts dir
+sudo chmod +x /usr/lib/xymon/client/ext/retmt.pl
+sudo nano /etc/xymon/clientlaunch.d/retmt.cfg
+#
+# Test retmt retrieves the temperatures of this machine.
+#
+[retmt]
+	ENVFILE $XYMONCLIENTHOME/etc/xymonclient.cfg
+	CMD $XYMONCLIENTHOME/ext/retmt.pl
+	LOGFILE $XYMONCLIENTLOGS/retmt.log
+	INTERVAL 5m
+# save that file
+# modify xymon CLIENT to check for homebridge proc.
+sudo nano /etc/xymon/analysis.cfg
+# add this:
+HOST=LawPi
+        PROC containerd
+        PROC homebridge
+        PROC cron
+        PORT "LOCAL=%([.:]5900)$" state=LISTEN TEXT=VNC
+        PORT "LOCAL=%([.:]5900)$" state=LISTEN TEXT=SecureShell
+        PORT "LOCAL=%([.:]51346)$" state=LISTEN TEXT=Homebridge
+# save it.
+'!/^veth/'
+
+
+ sudo nano /usr/lib/xymon/client/ext/apt
+pkgreport('Packages not installed from apt repositories', 'green', @no_repo);
+#
+sudo usermod -a -G www-data pi
+sudo chown -R -f www-data:www-data /var/www/html
+#
+## unknown about linking files from etc to pi directories
+
+# apt daily update
+sudo crontab -e
+0 3 * * * apt-get update
+#
+
+# Docker Containers
+in stack1 dir make the docker-compose.yaml files
+same for other 2
+Any config files needed for stack1?
+- dont think so, login to homebridge to configure it
+Bring stack 1 up for inspection-verify...
+-login to each container, make sure they "work"
+ctrl-c, then dc up -d.
+
+stack 2 config before bringing them up
+# unifi-poller
+nano /home/docker/stack2/unpoller/unifi-poller.conf
+# make sure to have the correct IP addresses in there.
+bring up the stack- check for good/bad messages, then config Grafana
+	set pwd, config db link, import dashboards
+ok? ctrl-c them then do dc up -d
+
+
+
+# stack3 config files
+cd /home/docker/stack3
+bring up the stack3- dc up
+Give it 10 mins to do at least 2 full ping rounds.
+crtl-c down
+
+# edit config files.
+
+nano /home/docker/stack3/ddclient/config/ddclient.conf
+nano /home/docker/stack3/smokeping/config/Targets
+Manually add a site or two in the Heimdal portal. Be sure to complete the links sometime later?
+now dc up -d.
+
+
+dockercompose up, check console for full deployment and errors, then ctrl-c them down, make any adjustments, then docker-compose up -d
+
+
+
+

@@ -24,8 +24,13 @@ host = 192.168.0.1
 
 ++ FirstHop
 menu = FirstHop
-title = First Hop out of the house
+title = First Hop out of the house 68.86.168.18
 host = 68.86.168.18
+
+++ Centennial
+menu = Centennial
+title = Centennial GD Ext DHCP
+host = abode.ddns.net
 
 + InternetSites
 
@@ -39,12 +44,12 @@ host = facebook.com
 
 ++ Apple
 menu = Apple
-title = Apple
+title = Apple Dot COM
 host = apple.com
 
 ++ Ancestry
-menu = AncestryGenealogy
-title = Ancestry Genealogy
+menu = Ancestry
+title = Ancestry Dot COM
 host = ancestry.com
 
 + Europe

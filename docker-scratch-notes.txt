@@ -1,0 +1,126 @@
+# WARNING: Replace the example passwords with secure secrets.
+# WARNING: 'my_secret_phpipam_pass' and 'my_secret_mysql_root_pass'
+
+version: '3'
+
+services:
+  phpipam-web:
+    image: phpipam/phpipam-www:latest
+    ports:
+      - "8085:80"
+    environment:
+      - TZ=MST7MDT
+      - IPAM_DATABASE_HOST=phpipam-mariadb
+      - IPAM_DATABASE_PASS=BellyFat789
+      - IPAM_DATABASE_WEBHOST=%
+    restart: unless-stopped
+    volumes:
+      - /home/docker/phpipam-web/phpipam-logo:/phpipam/css/images/logo
+    depends_on:
+      - phpipam-mariadb
+
+  phpipam-cron:
+    image: phpipam/phpipam-cron:latest
+    environment:
+      - TZ=MST7MDT
+      - IPAM_DATABASE_HOST=phpipam-mariadb
+      - IPAM_DATABASE_PASS=BellyFat789
+      - SCAN_INTERVAL=1h
+    restart: unless-stopped
+    depends_on:
+      - phpipam-mariadb
+
+  phpipam-mariadb:
+    image: ghcr.io/linuxserver/mariadb
+    environment:
+	  - PUID=1000
+      - PGID=1000
+	  - TZ=MST7MDT
+      - MYSQL_ROOT_PASSWORD=BellyFat789
+    restart: unless-stopped
+    volumes:
+      - /home/docker/phpipam-mariadb/phpipam-db-data:/var/lib/mysql
+
+volumes:
+  phpipam-db-data:
+  phpipam-logo:
+  
+###
+docker run -p 9000:9000 --name=portainer -v /var/run/docker.sock:/var/run/docker.sock -v /home/docker/portainer/data:/data portainer/portainer-ce:linux-arm
+###
+docker run --name nagios4 -p 0.0.0.0:8081:80 rdicaire/nagios-arm32
+  450  mkdir portainer
+  451  cd portainer/
+  452  ls -al
+  453  docker run -p 9000:9000 --name=portainer -v /var/run/docker.sock:/var/run/docker.sock -v /home/docker/portainer/data:/data portainer/portainer-ce:linux-arm
+  454  iotop
+  455  sudo iotop
+  456  sudo docker pull portainer/portainer-ce:linux-arm
+####
+vcgencmd get_mem arm && vcgencmd get_mem gpu
+vcgencmd measure_temp
+###
+docker run --name nagios4 -p 0.0.0.0:8081:80 rdicaire/nagios-arm32
+###
+
+  
+   docker run 
+   -p 9000:9000 
+   --name=portainer 
+   -v /var/run/docker.sock:/var/run/docker.sock 
+   -v /home/docker/portainer/data:/data 
+   
+   portainer/portainer-ce:linux-arm
+
+
+docker run -d -p 80:80 -p 1984:1984 -v /etc/xymon:/etc/xymon -v /var/lib/xymon:/var/lib/xymon --name xymon deweysasser/xymon
+
+docker run -d -p 8086:80 -p 1984:1984 -v /home/docker/xymon/etc/xymon:/etc/xymon -v /home/docker/xymon/var/lib/xmon:/var/lib/xymon --name xymon deweysasser/xymon
+
+
+  homebridge:
+    image: oznu/homebridge:raspberry-pi
+    restart: always
+    network_mode: host
+    volumes:
+      - /home/pi/docker/homebridge:/config
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - HOMEBRIDGE_CONFIG_UI=1
+      - HOMEBRIDGE_CONFIG_UI_PORT=858
+	  
+	  
+	  
+	  services:
+  heimdall:
+    image: ghcr.io/linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Denver
+    volumes:
+      - /home/docker/heimdall/config:/config
+    ports:
+      - 8088:80
+      - 8443:443
+    restart: always
+	
+  nagios4:
+    image: rdicaire/nagios-arm32
+	environment:
+      - TZ=America/Denver
+	volumes:
+	  - /home/docker/nagios4/etc:/opt/nagios/etc/
+      - /home/docker/nagios4/var:/opt/nagios/var/
+      - /home/docker/nagios4/plugins:/opt/Custom-Nagios-Plugins
+      - /home/docker/nagios4/nagiosgraph-var:/opt/nagiosgraph/var
+      - /home/docker/nagios4/nagiosgraph-etc:/opt/nagiosgraph/etc
+    ports:
+	  - 0.0.0.0:8081:80
+	restart: always
+	
+	
+	
+cd /tmp/nagiosgraph && ./install.pl --install --prefix /opt/nagiosgraph --nagios-user ${NAGIOS_USER} --www-user ${NAGIOS_USER} --nagios-perfdata-file ${NAGIOS_HOME}/var/perfdata.log --nagios-cgi-url /cgi-bin && cp share/nagiosgraph.ssi ${NAGIOS_HOME}/share/ssi/common-header.ssi

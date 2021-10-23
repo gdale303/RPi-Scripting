@@ -1,0 +1,10 @@
+## GD
+##
+## NoIP by GD
+protocol=dyndns2
+use=web, web=checkip.dyndns.com/, web-skip='IP Address'
+server=dynupdate.no-ip.com
+login=gregdalemcp
+password=Croppie32
+nerefuge.ddns.net
+# yourhostname.no-ip.org

@@ -1,0 +1,167 @@
+
+
+
+
+
+
+
+
+
+   28  service xymon-client restart
+apt install nano xymon-client
+
+
+sed -i 's/\(^CLIENTHOSTNAME=\).*/\CLIENTHOSTNAME="Container"/' /etc/default/xymon-client
+sed -i 's/\(^XYMONSERVERS=\).*/\XYMONSERVERS="10.0.0.25"/' /etc/default/xymon-client
+service xymon-client restart
+
+
+
+
+
+WD=/home/pi/Containers/other/xymon 
+rm $WD/{default,etc,var,apache2,msmtprc,log} -R
+mkdir -p $WD/{setup,default,etc,var,apache2,msmtprc,log,log/apache2} 
+cd $WD/setup
+cat << 'EOF' >docker-compose.yaml
+version: '3.7'
+
+services:
+ xymon-server:
+    container_name: xymon-server
+    build: .
+    image: xymon-server
+    hostname: xymon-server
+    ports:
+      - '8984:80'
+      - '1984:1984'
+    volumes:
+      - type: bind
+        source: /home/pi/Containers/other/xymon/default/
+        target: /etc/default
+      - type: bind
+        source: /home/pi/Containers/other/xymon/etc/
+        target: /etc/xymon
+      - type: bind 
+        source: /home/pi/Containers/other/xymon/var/ 
+        target: /var/lib/xymon
+      - type: bind
+        source: /home/pi/Containers/other/xymon/apache2/
+        target: /etc/apache2/conf-enabled
+      - type: bind
+        source: /home/pi/Containers/other/xymon/msmtprc/msmtprc
+        target: /etc/msmtprc        
+      - type: bind
+        source: /home/pi/Containers/other/xymon/log/
+        target: /var/log 
+      - /usr/bin/vcgencmd:/usr/bin/vcgencmd	
+     
+    environment:
+      - 'TZ=${TZ}'
+
+EOF
+chmod +x docker-compose.yaml
+
+cat << 'EOF' >Dockerfile
+FROM debian:buster
+MAINTAINER Greg
+
+ARG DEBIAN_FRONTEND=noninteractive
+ARG TZ
+
+RUN apt-get update
+RUN apt-get install -y xymon msmtp msmtp-mta mailutils tzdata nano && rm -rf /var/lib/apt/lists/*
+RUN apt-get clean 
+
+ENV TZ=$TZ
+RUN date
+
+ENTRYPOINT ["/etc/xymon/xymon_start.sh"]
+EOF
+chmod +x Dockerfile
+
+cat << 'EOF' >$WD/msmtprc/msmtprc
+# Set default values for all following accounts.
+defaults
+port 587
+tls on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+
+account gmail
+host smtp.gmail.com
+from <user>@gmail.com
+auth on
+user <user>
+password <pwd>
+
+# Set a default account
+account default : gmail
+EOF
+chmod +x $WD/msmtprc/msmtprc
+
+cat << 'EOF' >$WD/etc/xymon_start.sh
+#!/bin/bash
+
+service xymon start
+rm -f /var/run/apache2/apache2.pid
+apachectl -DFOREGROUND
+EOF
+chmod +x $WD/etc/xymon_start.sh
+
+cat << 'EOF' >copyfiles_from_container.sh
+#!/bin/bash
+echo y | docker image prune
+docker stop xymon-server
+docker container rm xymon-server
+docker build --no-cache . -t="xymon-server"
+docker run -d --name xymon-server xymon-server
+docker cp xymon-server:/etc/default/. /home/pi/Containers/other/xymon/default/ 
+docker cp xymon-server:/etc/xymon/. /home/pi/Containers/other/xymon/etc/
+docker cp xymon-server:/var/lib/xymon/. /home/pi/Containers/other/xymon/var/
+docker cp xymon-server:/etc/apache2/conf-available/. /home/pi/Containers/other/xymon/apache2/ 
+docker stop xymon-server
+docker container rm xymon-server
+sed -i "s/^CLIENTHOSTNAME.*/CLIENTHOSTNAME=\"xymon-server\"/" /home/pi/Containers/other/xymon/default
+sed -i "s@^127.0.0.1.*@127.0.0.1\txymon-server\t# bbd http://xymon-server/@" /home/pi/Containers/other/xymon/etc/hosts.cfg
+EOF
+chmod +x copyfiles_from_container.sh
+./copyfiles_from_container.sh
+
+cat << 'EOF' >set_permissions.sh
+#!/bin/bash
+sed -i -e 's/Require local/Require all granted/g' /home/pi/Containers/other/xymon/apache2/xymon.conf
+chown :101 /home/pi/Containers/other/xymon/ -R
+chmod 775 /home/pi/Containers/other/xymon/ -R
+chmod g+s /home/pi/Containers/other/xymon/ -R
+EOF
+chmod +x set_permissions.sh
+./set_permissions.sh
+
+
+cd $WD/setup
+cat << 'EOF'>.env
+TZ=America/Denver
+EOF
+chmod +x .env
+
+
+
+[Unit]
+Description=xymon-server_Docker
+Requires=docker.service network-online.target
+
+[Service]
+
+Restart=on-abnormal
+ExecStart=/usr/bin/docker-compose --project-name xymon-server --project-directory $WD -f $WD/docker-compose.yaml up
+ExecStop=/usr/bin/docker-compose --project-name xymon-server --project-directory $WD -f $WD/docker-compose.yaml stop
+
+[Install]
+WantedBy=multi-user.target
+EOL
+
+
+
+
+
+docker-compose --project-name xymon-server --project-directory /home/pi/Containers/other/xymon/setup -f home/pi/Containers/other/xymon/setup/docker-compose.yaml up
