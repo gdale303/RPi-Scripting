@@ -1,0 +1,37 @@
+docker container run -dit -p 8080:5000 --ulimit nofile=1024 -v /home/pi/Containers/test/omd/sites:/omd/sites --name monitoring -v/etc/localtime:/etc/localtime:ro monitoring
+
+
+
+in greylog dir
+docker-compose up
+
+
+pi@Scream4Berry:~/Containers/test/guac $ docker run -p 8090:8080 -v /home/pi/Containers/test/guac/config:/config oznu/guacamole:armhf
+
+
+
+sudo apt-get upgrade
+curl -LO $(curl -s https://api.github.com/repos/chrisss404/check-mk-arm/releases/tags/2.0.0p3 | grep browser_download_url | cut -d '"' -f 4 | grep buster_armhf.deb) 
+dpkg -i check-mk-raw-*.buster_armhf.deb
+sudo dpkg -i check-mk-raw-*.buster_armhf.deb
+sudo apt-get install -f
+sudo dpkg -i check-mk-raw-*.buster_armhf.deb
+omd version
+sudo omd create home
+
+sudo nano /etc/snmp/snmpd.conf 
+sudo snmpd restart
+sudo snmpd start
+sudo nano /etc/snmp/snmpd.conf 
+ps -A| grep snmp
+
+
+
+vcgencmd measure_temp
+vcgencmd get_mem arm && vcgencmd get_mem gpu
+vcgencmd measure_temp
+
+
+docker run --name nagios4 -p 0.0.0.0:8081:80 rdicaire/nagios-arm32
+
+docker run -p 8090:8080 -v /home/pi/Containers/test/guac/config:/config oznu/guacamole
