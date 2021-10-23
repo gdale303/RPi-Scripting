@@ -1,0 +1,10 @@
+template:
+  - binary_sensor:
+    - name: 'Bro Printer Out Of Paper'
+      state: >
+        {{ is_state('sensor.mfc_6490cw_status', 'no paper') }}
+
+  - binary_sensor:
+    - name: 'Bro Printer Paper Jam'
+      state: >
+        {{ is_state('sensor.mfc_6490cw_status', 'paper jam') }}
