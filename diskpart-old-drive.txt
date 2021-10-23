@@ -1,0 +1,26 @@
+
+
+
+prepare old drive for raspberry pi
+
+make sure what you want to keep is moved elsewhere
+
+Admin command prompt
+
+diskpart
+	list disk
+select disk #
+		list part
+clean
+
+Create partition primary size=4096
+Select partition 1
+active
+
+format fs=fat32 quick
+assign
+exit
+
+
+now we have a 4gb fat32 partition, ready for windiskimager or a NOOBS/PINN copy
+
