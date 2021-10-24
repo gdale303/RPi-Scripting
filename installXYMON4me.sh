@@ -1,4 +1,8 @@
-
+##
+sudo nano /usr/lib/xymon/client/ext/retmt.pl
+pi@GassiPi:~ $ sudo chmod +x /usr/lib/xymon/client/ext/retmt.pl
+pi@GassiPi:~ $ sudo nano /etc/xymon/clientlaunch.d/retmt.cfg
+###
 
 
 sudo apt install xymon
@@ -198,3 +202,15 @@ sudo nano /etc/xymon/clientlaunch.d/retmt.cfg
 	LOGFILE $XYMONCLIENTLOGS/retmt.log
 	INTERVAL 5m
 ### EOF
+
+
+
+### for the client....
+#
+# Test retmt retrieves the temperatures of this machine.
+#
+[retmt]
+	ENVFILE $XYMONCLIENTHOME/etc/xymonclient.cfg
+	CMD $XYMONCLIENTHOME/ext/retmt.pl
+	LOGFILE $XYMONCLIENTLOGS/retmt.log
+	INTERVAL 5m

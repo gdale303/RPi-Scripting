@@ -1,0 +1,38 @@
+mkdirs
+
+cp /home/pi/.
+
+cd
+pi@GassiPi:~ $ 
+pi@GassiPi:~ $ mkdir .config/lxsession
+pi@GassiPi:~ $ mkdir .config/lxsession/LXDE-pi
+pi@GassiPi:~ $ cp /etc/xdg/lxsession/LXDE-pi/autostart /home/pi/.config/lxsession/LXDE-pi/
+pi@GassiPi:~ $ nano /home/pi/.config/lxsession/LXDE-pi/autostart 
+
+
+cp .local/bin/AIY-projects-shell.sh .local/bin/AIY-projects-shell-GD.sh 
+nano .local/bin/AIY-projects-shell-GD.sh 
+sudo journalctl -u assistant_grpc_demo -f
+
+
+# Move to the directory with the .service file
+cd ~/AIY-projects-python/src/examples/voice/
+
+# Create the symlink
+sudo ln -s `pwd`/assistant_grpc_demo.service /lib/systemd/system
+
+# Reload the service files so the system knows about this new one
+sudo systemctl daemon-reload
+
+sudo systemctl enable assistant_grpc_demo.service
+ and reboot or make it load now
+ sudo service assistant_grpc_demo start
+ 
+ 
+ sudo systemctl disable assistant_grpc_demo.service
+And to manually stop it once it's running, use this command:
+
+sudo service assistant_grpc_demo stop
+You can check the status of your service with this command:
+
+sudo service assistant_grpc_demo status
