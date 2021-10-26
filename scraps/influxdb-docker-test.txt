@@ -1,0 +1,31 @@
+
+
+
+influxdb 1.8 test docker env variable
+
+INFLUXDB_DB_RETENTION_POLICY='WITH DURATION 32d REPLICATION 1 NAME unifi'
+
+      # Once every 24 hours InfluxDB will report usage data to usage.influxdata.com. Change this option to true to
+      # disable reporting.
+      INFLUXDB_REPORTING_DISABLED: 'true'
+
+INFLUXDB_REPORTING_DISABLED: 'true'
+INFLUXDB_DATA_INDEX_VERSION: tsi1
+
+
+ # The type of shard index to use for new shards. The default is an in-memory index that is recreated at startup.
+      # A value of "tsi1" will use a disk based index that supports higher cardinality datasets.
+      INFLUXDB_DATA_INDEX_VERSION: tsi1
+	  
+	  
+	  
+	  
+	  
+    environment:
+      - INFLUXDB_DB=unifi
+      - INFLUXDB_ADMIN_USER=unifi
+      - INFLUXDB_ADMIN_PASSWORD=unifi
+      - INFLUXDB_REPORTING_DISABLED='true'
+      - INFLUXDB_DATA_INDEX_VERSION=tsi1
+      - INFLUXDB_DB_RETENTION_POLICY='WITH DURATION 32d REPLICATION 1 NAME unifi'
+      - GOMAXPROCS=3
