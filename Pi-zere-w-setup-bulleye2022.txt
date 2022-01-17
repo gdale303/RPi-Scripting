@@ -1,0 +1,82 @@
+pi zero w with bulleye, removing some stuff and disabling to free resources from a x11 desktop requirement.
+
+sudo apt install xymon-client
+sudo apt install hobbit-plugins
+htop
+nano gd-mm.sh
+htop
+apt autoremove -y python-games
+sudo apt autoremove -y python-games
+sudo apt autoremove -y geany*
+sudo apt autoremove -y thonny
+pstree
+ls /etc/modprobe.d/
+cat /etc/modprobe.d/raspi-blacklist.conf
+sudo nano /etc/modprobe.d/raspi-blacklist.conf
+systemctl disable bluetooth
+sudo systemctl disable bluetooth
+sudo systemctl stop bluetooth
+sudo systemctl disable avahi-daemon
+sudo systemctl stop avahi-daemon
+sudo systemctl disable triggerhappy
+sudo systemctl stop triggerhappy
+pstree
+htop
+./gd-mm.sh
+htop
+pstree
+sudo dphys-swapfile swapoff
+sudo nano /etc/dphys-swapfile
+sudo dphys-swapfile setup
+sudo dphys-swapfile swapon
+sudo apt clean
+sudo apt autoremove
+sudo systemctl disable cupsd
+sudo apt autoremove cups*
+sudo apt autoremove omxplayer
+pstree
+sudo apt update
+ls
+chmod+x gd-mm.sh
+chmod +x gd-mm.sh
+ls
+htop
+pstree
+sudo systemctl disable avahi-daemon
+pstree
+sudo systemctl stop avahi-daemon
+sudo apt remove avahi-daemon
+pstree
+htop
+sudo pulseaudio --kill
+sudo nano /etc/pulse/client.conf
+pstree
+sudo reboot
+
+
+
+
+
+sudo touch /etc/chromium-browser/customizations/01-disable-update-check;echo CHROMIUM_FLAGS=\”\$\{CHROMIUM_FLAGS\} –check-for-update-interval=31536000\” | sudo tee /etc/c
+hromium-browser/customizations/01-disable-update-check
+
+
+
+
+
+
+sudo apt install xinit
+sudo apt install xorg
+sudo apt install matchbox
+sudo apt install unclutter
+sudo reboot
+sudo apt install x11-xserver-utils
+sudo nano chromium_start.sh
+htop
+sudo poweroff
+./chromium_start.sh
+node clientonly --address 10.0.0.21 --port 8888
+chromium-browser --start-fullscreen -app http://10.0.0.21:8888
+sudo xinit ./chromium_start.sh
+xinit ./chromium_start.sh
+sudo xinit ./chromium_start.sh

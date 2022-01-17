@@ -1,0 +1,12 @@
+version: "2"
+services:
+  guacamole:
+    image: oznu/guacamole:armhf
+    container_name: guacamole
+    volumes:
+      - /home/pi/Containers/stacks/4/guac/postgres:/config
+    ports:
+      - 8080:8080
+volumes:
+  postgres:
+    driver: local

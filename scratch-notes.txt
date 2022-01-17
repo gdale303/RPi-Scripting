@@ -30,6 +30,13 @@ sudo nano /boot/cmdline.txt
 
 sudo nano /etc/dhcpcd.conf
 # ensure hostname, and eth0 info, and add noipv4ll in there. allow and deny statements???
+???
+
+noipv4ll
+
+allowinterfaces eth*,wlan*
+denyinterfaces veth*
+????
 
 # ssh configure
 sudo nano /etc/ssh/sshd_config
